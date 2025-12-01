@@ -12,10 +12,56 @@ public class Main {
 
 
     static void main() throws IOException {
-        List<String> input = Util.parseLines("inputs/day1.txt");
+        List<String> input = Util.parseLines("inputs/day1.moc.txt");
 
-        int answer = part1(input);
+        int answer = part2(input);
         System.out.println(answer);
+    }
+
+
+    //too low: 2178
+    //wrong: 5530,7163
+    private static int part2(List<String> input) {
+        int zeroCounter = 0;
+
+        int pos = START_POS;
+
+
+        for (String move : input) {
+            if (move.isEmpty()) {
+                continue;
+            }
+            System.out.print(move + ": ");
+            String direction = move.substring(0, 1);
+            int distance = Integer.parseInt(move.substring(1));
+            int newPos = pos;
+            System.out.print(pos);
+            if (direction.equals("L")) {
+                newPos -= distance % (MAX + 1);
+                System.out.print("-" + distance + " = ");
+            } else {
+                newPos += distance % (MAX + 1);
+                System.out.print("+" + distance + " = ");
+            }
+            int normalPos = normalize(newPos);
+            System.out.println(newPos + " -> " + normalPos);
+
+            if (distance > MAX + 1) {
+                zeroCounter += distance / (MAX + 1);
+                System.out.println("+" + (distance / (MAX + 1)));
+            }
+            if (normalPos == 0 || newPos != normalPos) {
+                zeroCounter++;
+                System.out.println("+1");
+            }
+
+
+            pos = normalPos;
+
+        }
+
+
+        return zeroCounter;
     }
 
     private static int part1(List<String> input) {
@@ -48,8 +94,6 @@ public class Main {
 
 
         }
-
-
 
 
         return zeroCounter;
