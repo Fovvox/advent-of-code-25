@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -19,5 +20,11 @@ public class Util {
         }
 
         return result;
+    }
+
+    public static List<String> parse(String file, String splitter) throws IOException {
+        String content = Files.readString(Path.of(file));
+
+        return Arrays.asList(content.split(splitter));
     }
 }
