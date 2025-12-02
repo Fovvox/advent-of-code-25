@@ -1,5 +1,6 @@
 package aoc.fovvox.day2;
 
+import aoc.fovvox.ExecutionTimer;
 import aoc.fovvox.Util;
 
 import java.io.IOException;
@@ -8,9 +9,20 @@ import java.util.List;
 public class Main {
     static void main() throws IOException {
         List<String> ranges = Util.parse("inputs/day2.txt", ",");
+        ExecutionTimer timer = new ExecutionTimer();
+        timer.start();
+        long result = part1(ranges);
+        timer.stop();
+        System.out.println("Part1: " + result);
+        System.out.println(timer.getFormatted());
+        System.out.println();
 
-        long result = part2(ranges);
-        System.out.println(result);
+        timer.start();
+        result = part2(ranges);
+        timer.stop();
+        System.out.println("Part2: " + result);
+        System.out.println(timer.getFormatted());
+        System.out.println();
 
     }
 
@@ -18,7 +30,6 @@ public class Main {
         long result = 0;
 
         for (String range : ranges) {
-            System.out.println(range);
             String[] parts = range.split("-");
             long start = Long.parseLong(parts[0]);
             long end = Long.parseLong(parts[1]);
@@ -29,7 +40,6 @@ public class Main {
                     String replaced = num.replace(part, "");
                     if (replaced.isEmpty()) {
                         result += i;
-                        System.out.println("\t" + num);
                         break;
                     }
                 }
@@ -45,7 +55,6 @@ public class Main {
         long result = 0;
 
         for (String range : ranges) {
-            System.out.println(range);
             String[] parts = range.split("-");
             long start = Long.parseLong(parts[0]);
             long end = Long.parseLong(parts[1]);
@@ -59,13 +68,23 @@ public class Main {
 
                 if (num1.equals(num2)) {
                     result += i;
-                    System.out.println("\t" + num);
                 }
             }
 
         }
 
 
+        return result;
+    }
+
+    private static long count(List<String> ranges) {
+        long result = 0;
+        for (String range : ranges) {
+            String[] parts = range.split("-");
+            long start = Long.parseLong(parts[0]);
+            long end = Long.parseLong(parts[1]);
+            result+= (end - start);
+        }
         return result;
     }
 }
