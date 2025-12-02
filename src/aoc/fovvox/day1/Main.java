@@ -12,7 +12,7 @@ public class Main {
 
 
     static void main() throws IOException {
-        List<String> input = Util.parseLines("inputs/day1.moc.txt");
+        List<String> input = Util.parseLines("inputs/day1.txt");
 
         int answer = part2(input);
         System.out.println(answer);
@@ -20,7 +20,8 @@ public class Main {
 
 
     //too low: 2178
-    //wrong: 5530,7163
+    //wrong: 5530, 7163, 6883
+    //correct: 6616
     private static int part2(List<String> input) {
         int zeroCounter = 0;
 
@@ -31,35 +32,21 @@ public class Main {
             if (move.isEmpty()) {
                 continue;
             }
-            System.out.print(move + ": ");
             String direction = move.substring(0, 1);
             int distance = Integer.parseInt(move.substring(1));
-            int newPos = pos;
-            System.out.print(pos);
-            if (direction.equals("L")) {
-                newPos -= distance % (MAX + 1);
-                System.out.print("-" + distance + " = ");
-            } else {
-                newPos += distance % (MAX + 1);
-                System.out.print("+" + distance + " = ");
+            if (direction.equals("R")) {
+                zeroCounter+= (pos + distance) / (MAX + 1);
+                pos = (pos + distance) % (MAX + 1);
+            } else if (direction.equals("L")) {
+                if (pos == 0) {
+                    zeroCounter += distance / (MAX + 1);
+                } else if (distance >= pos) {
+                    zeroCounter += (distance - pos) / (MAX + 1) + 1;
+                }
+                pos = ((pos - distance) % 100 + 100) % 100;
             }
-            int normalPos = normalize(newPos);
-            System.out.println(newPos + " -> " + normalPos);
-
-            if (distance > MAX + 1) {
-                zeroCounter += distance / (MAX + 1);
-                System.out.println("+" + (distance / (MAX + 1)));
-            }
-            if (normalPos == 0 || newPos != normalPos) {
-                zeroCounter++;
-                System.out.println("+1");
-            }
-
-
-            pos = normalPos;
 
         }
-
 
         return zeroCounter;
     }
