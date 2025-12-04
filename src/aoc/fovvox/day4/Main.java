@@ -9,6 +9,7 @@ import java.util.List;
 public class Main {
     static void main() throws IOException {
         String[][] rolls = Util.parseStringMatrix("inputs/day4.txt");
+        Util.printMatrix(rolls);
         ExecutionTimer timer = new ExecutionTimer();
         timer.start();
         long result = part1(rolls);
@@ -17,30 +18,55 @@ public class Main {
         System.out.println(timer.getFormatted());
         System.out.println();
 
-//        timer.start();
-//        result = part2(ranges);
-//        timer.stop();
-//        System.out.println("Part2: " + result);
-//        System.out.println(timer.getFormatted());
-//        System.out.println();
+        rolls = Util.parseStringMatrix("inputs/day4.txt");
+        timer.start();
+        result = part2(rolls);
+        timer.stop();
+        System.out.println("Part2: " + result);
+        System.out.println(timer.getFormatted());
+        System.out.println();
     }
 
+    private static long part2(String[][] rolls) {
+        long result = 0;
+        long lastResult = removeRolls(rolls);
+        Util.printMatrix(rolls);
+        while (lastResult > 0) {
+            for (int i = 0; i < rolls.length; i++) {
+                for (int j = 0; j < rolls[i].length; j++) {
+                    if (rolls[i][j].equals("x")) {
+                        rolls[i][j] = ".";
+                    }
+                }
+            }
+            result += lastResult;
+            lastResult = removeRolls(rolls);
+            Util.printMatrix(rolls);
+        }
+        return result;
+    }
     //correct: 1602
     private static long part1(String[][] rolls) {
+        return removeRolls(rolls);
+    }
+
+    private static long removeRolls(String[][] rolls) {
         long result = 0;
         for (int i = 0; i < rolls.length; i++) {
             for (int j = 0; j < rolls[i].length; j++) {
-                if (rolls[i][j].equals(".")) {
+                if (!rolls[i][j].equals("@")) {
                     continue;
                 }
                 int adjacentRolls = countAdjacentRolls(rolls, i, j);
                 if (adjacentRolls < 4) {
+                    rolls[i][j] = "x";
                     result++;
                 }
             }
         }
         return result;
     }
+
 
     private static int countAdjacentRolls(String[][] rolls, int x, int y) {
         int count = 0;
@@ -52,7 +78,7 @@ public class Main {
                 if (y + j < 0 || y + j >= rolls[x].length || i ==0 && j == 0) {
                     continue;
                 }
-                if (rolls[x+i][y+j].equals("@")) {
+                if (!rolls[x+i][y+j].equals(".")) {
                     count++;
                 }
             }
