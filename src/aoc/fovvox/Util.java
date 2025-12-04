@@ -27,4 +27,9 @@ public class Util {
 
         return Arrays.asList(content.split(splitter));
     }
+
+    public static String[][] parseStringMatrix(String file) throws IOException {
+        List<String> lines = Files.readAllLines(Path.of(file));
+        return lines.stream().map(s -> s.split("")).toArray(String[][]::new);
+    }
 }
