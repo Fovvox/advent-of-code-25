@@ -17,43 +17,42 @@ public class Main {
         System.out.println("Part1: " + result);
         System.out.println(timer.getFormatted());
         System.out.println();
-//
-//        timer.start();
-//        result = part2(ranges);
-//        timer.stop();
-//        System.out.println("Part2: " + result);
-//        System.out.println(timer.getFormatted());
-//        System.out.println();
+
+        timer.start();
+        result = part2(ranges);
+        timer.stop();
+        System.out.println("Part2: " + result);
+        System.out.println(timer.getFormatted());
+        System.out.println();
     }
 
 
-    //too high: 17462
+    //too high: 17462(repeating the same number)
     //correct: 17301
     private static long part1(List<String> banks) {
         long result = 0;
 
         for (String bank : banks) {
-            System.out.print(bank + ": ");
+//            System.out.print(bank + ": ");
             int[] batteries = Arrays.stream(bank.split("")).mapToInt(Integer::parseInt).toArray();
-            int currentTens = 0;
-            int currentOnes = 0;
-            for (int i = 0; i < batteries.length - 1; i++) {
-                if (currentTens >= batteries[i]) {
-                    continue;
-                }
-                currentTens = batteries[i];
-                currentOnes = 0;
-                for (int j = i + 1; j < batteries.length; j++) {
-                    if (currentOnes >= batteries[j]) {
-                        continue;
-                    }
-                    currentOnes = batteries[j];
-                }
-            }
-            result += currentTens * 10L + currentOnes;
-            System.out.println(currentTens * 10L + currentOnes);
+            long jolts = maxJolts(batteries, 2);
+//            System.out.println(jolts);
+            result += jolts;
         }
 
+        return result;
+    }
+
+    private static long part2(List<String> banks) {
+        long result = 0;
+
+        for (String bank : banks) {
+//            System.out.print(bank + ": ");
+            int[] batteries = Arrays.stream(bank.split("")).mapToInt(Integer::parseInt).toArray();
+            long jolts = maxJolts(batteries, 12);
+//            System.out.println(jolts);
+            result += jolts;
+        }
 
         return result;
     }
@@ -61,17 +60,16 @@ public class Main {
 
     private static long maxJolts(int[] batteries, int amountToEnable) {
         int[] indexes = new int[amountToEnable];
-        indexes[0] = -1;
-        for (int i = 0; i < amountToEnable; i++) {
-            int index = findIndexOfFirstMaxNumber(batteries, indexes[i] + 1, batteries.length - i);
+        indexes[0] = findIndexOfFirstMaxNumber(batteries, 0, batteries.length - amountToEnable);
+        ;
+        for (int i = 1; i < amountToEnable; i++) {
+            int index = findIndexOfFirstMaxNumber(batteries, indexes[i - 1] + 1, batteries.length - (amountToEnable - i));
             indexes[i] = index;
-
-
         }
 
         long result = 0;
         for (int i = 0; i < indexes.length; i++) {
-            result += (long) batteries[indexes[i]] * Math.powExact(10, i);
+            result += (long) batteries[indexes[i]] * Math.powExact(10L, indexes.length - i - 1);
         }
         return result;
     }
@@ -80,7 +78,7 @@ public class Main {
     private static int findIndexOfFirstMaxNumber(int[] arr, int start, int end) {
 
         for (int i = 9; i > 0; i--) {
-            for (int j = start; j < end; j++) {
+            for (int j = start; j <= end; j++) {
                 if (arr[j] == i) {
                     return j;
                 }
