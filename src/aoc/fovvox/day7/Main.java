@@ -20,14 +20,39 @@ public class Main {
         System.out.println("Part1: " + result);
         System.out.println(timer.getFormatted());
         System.out.println();
-//        parameters = parsePart2(parts);
-//        timer.start();
-//        result = calculate(operators, parameters);
-//        timer.stop();
-//        System.out.println("Part2: " + result);
-//        System.out.println(timer.getFormatted());
-//        System.out.println();
+        timer.start();
+        result = part2(start, splitters);
+        timer.stop();
+        System.out.println("Part2: " + result);
+        System.out.println(timer.getFormatted());
+        System.out.println();
         
+    }
+
+    //too low: 1523258920
+    private static long part2(int start, List<List<Integer>> splitters) {
+        Map<Integer, Long> lasers = new HashMap<>();
+        lasers.put(start, 1L);
+        for (List<Integer> splitterLine : splitters) {
+            Map<Integer, Long> newLasers = new HashMap<>();
+            for (Integer laser : lasers.keySet()) {
+                Map<Integer, Long> finalLasers = lasers;
+                if (splitterLine.contains(laser)) {
+                    newLasers.computeIfPresent(laser-1, (k, v) -> v+ finalLasers.get(laser));
+                    newLasers.putIfAbsent(laser-1, finalLasers.get(laser));
+                    newLasers.computeIfPresent(laser+1, (k, v) -> v+finalLasers.get(laser));
+                    newLasers.putIfAbsent(laser+1, finalLasers.get(laser));
+                    
+                } else {
+                    newLasers.computeIfPresent(laser, (k, v) -> v+ finalLasers.get(laser));
+                    newLasers.putIfAbsent(laser, finalLasers.get(laser));
+                }
+            }
+            lasers = newLasers;
+//            System.out.println(lasers.values());
+        }
+        
+        return  lasers.values().stream().mapToLong(a->a).sum();
     }
 
     static private long part1(int start, List<List<Integer>> splitters) {
