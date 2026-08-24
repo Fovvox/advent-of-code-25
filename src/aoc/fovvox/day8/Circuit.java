@@ -4,11 +4,13 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import aoc.fovvox.Point3D;
+
 public class Circuit {
     long id;
-    Set<Point> points;
+    Set<Point3D> points;
 
-    public Circuit(long id, Point init) {
+    public Circuit(long id, Point3D init) {
         this.id = id;
         points = new HashSet<>();
         points.add(init);
@@ -31,7 +33,7 @@ public class Circuit {
     }
 
 
-    public boolean contains(Point point) {
+    public boolean contains(Point3D point) {
         return points.contains(point);
     }
 

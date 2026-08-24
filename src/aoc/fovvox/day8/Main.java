@@ -1,6 +1,7 @@
 package aoc.fovvox.day8;
 
 import aoc.fovvox.ExecutionTimer;
+import aoc.fovvox.Point3D;
 import aoc.fovvox.Util;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.*;
 public class Main {
     static void main() throws IOException {
         List<String> parts = Util.parseLines("inputs/day8.txt");
-        List<Point> points = parsePoints(parts);
+        List<Point3D> points = parsePoints(parts);
         List<Pair> pairs = buildPairs(points);
         Set<Circuit> circuits = buildCircuits(points);
         ExecutionTimer timer = new ExecutionTimer();
@@ -82,7 +83,7 @@ public class Main {
         return  -1;
     }
 
-    private static List<Pair> buildPairs(List<Point> points) {
+    private static List<Pair> buildPairs(List<Point3D> points) {
         List<Pair> pairs = new ArrayList<>();
 
         for (int i = 0; i < points.size(); i++) {
@@ -95,7 +96,7 @@ public class Main {
         return pairs;
     }
 
-    private static Set<Circuit> buildCircuits(List<Point> points) {
+    private static Set<Circuit> buildCircuits(List<Point3D> points) {
         Set<Circuit> circuits = new HashSet<>();
         for (int i = 0; i < points.size(); i++) {
             circuits.add(new Circuit(i, points.get(i)));
@@ -103,7 +104,7 @@ public class Main {
         return circuits;
     }
 
-    private static Circuit findCircuit(Point point, Set<Circuit> circuits) {
+    private static Circuit findCircuit(Point3D point, Set<Circuit> circuits) {
         for (Circuit circuit : circuits) {
             if (circuit.contains(point)) {
                 return circuit;
@@ -112,12 +113,12 @@ public class Main {
         return null;
     }
 
-    private static List<Point> parsePoints(List<String> parts) {
-        List<Point> points = new ArrayList<>();
+    private static List<Point3D> parsePoints(List<String> parts) {
+        List<Point3D> points = new ArrayList<>();
 
         for (String part : parts) {
             int[] coordinates = Arrays.stream(part.split(",")).mapToInt(Integer::parseInt).toArray();
-            points.add(new Point(coordinates[0], coordinates[1], coordinates[2]));
+            points.add(new Point3D(coordinates[0], coordinates[1], coordinates[2]));
         }
         return points;
     }

@@ -1,20 +1,20 @@
-package aoc.fovvox.day8;
+package aoc.fovvox;
 
-public class Point {
+public class Point3D {
     int x;
     int y;
     int z;
 
-    public Point(int x, int y, int z) {
+    public Point3D(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Point() {
+    public Point3D() {
     }
 
-    double distance(Point p) {
+    public double distance(Point3D p) {
         return Math.sqrt(
                 Math.pow(p.x - this.x, 2) +
                         Math.pow(p.y - this.y, 2) +

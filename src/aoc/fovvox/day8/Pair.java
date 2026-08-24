@@ -1,10 +1,12 @@
 package aoc.fovvox.day8;
 
-public class Pair {
-    Point p1;
-    Point p2;
+import aoc.fovvox.Point3D;
 
-    public Pair(Point p1, Point p2) {
+public class Pair {
+    Point3D p1;
+    Point3D p2;
+
+    public Pair(Point3D p1, Point3D p2) {
         this.p1 = p1;
         this.p2 = p2;
     }
