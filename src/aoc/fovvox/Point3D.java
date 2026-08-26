@@ -22,6 +22,30 @@ public class Point3D {
         );
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(final int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(final int y) {
+        this.y = y;
+    }
+
+    public int getZ() {
+        return z;
+    }
+
+    public void setZ(final int z) {
+        this.z = z;
+    }
+
     @Override
     public String toString() {
         return "(" + x + "," + y + "," + z + ")";

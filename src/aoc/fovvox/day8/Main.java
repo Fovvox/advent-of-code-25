@@ -76,7 +76,7 @@ public class Main {
             assert c2 != null;
             c1.addAll(c2);
             
-            result = (long) pair.p1.x * pair.p2.x;
+            result = (long) pair.p1.getX() * pair.p2.getX();
 //            circuits.stream().sorted((a, b) -> Integer.compare(b.size(), a.size())).forEach(points -> System.out.println(points));
 //            System.out.println();
         }
